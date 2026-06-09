@@ -8,11 +8,32 @@
 import SwiftUI
 
 struct BookRowView: View {
+    
+    let book : BookModel
+    @EnvironmentObject private var favorites : FavoritesViewModel
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        HStack {
+            VStack(alignment:.leading,spacing:4) {
+                Text(book.bookTitle)
+                    .font(.headline)
+                Text(book.bookAuthor)
+                    .font(.subheadline)
+                    .foregroundStyle(.secondary)
+            }
+            Spacer()
+            Button(action: {
+                favorites.toggleFavoriteBook(book: book)
+            }) {
+                Image(systemName: book.isFavorite ? "heart.fill" : "heart")
+                    .foregroundStyle(book.isFavorite ? .red : .gray)
+            }
+        }
+        .padding(.vertical, 4)
     }
 }
 
 #Preview {
-    BookRowView()
+    BookRowView(book: BookModel(id: 1, bookTitle: "1984", bookAuthor: "George Orwell", isFavorite: false))
+        .environmentObject(FavoritesViewModel())
 }

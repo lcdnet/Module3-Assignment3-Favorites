@@ -7,12 +7,24 @@
 
 import SwiftUI
 
-struct BookView: View {
+struct BooksView: View {
+    @EnvironmentObject var favorites : FavoritesViewModel
+    @Binding var searchText : String
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        ScrollView {
+            LazyVStack(alignment: .leading) {
+                ForEach(favorites.filteredBooks(searchText: searchText)) { book in
+                    BookRowView(book: book)
+                    Divider()
+                }
+            }
+            .padding()
+        }
     }
 }
 
 #Preview {
-    BookView()
+    BooksView(searchText: .constant(""))
+        .environmentObject(FavoritesViewModel())
 }

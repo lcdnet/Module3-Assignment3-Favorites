@@ -8,11 +8,24 @@
 import SwiftUI
 
 struct CitiesView: View {
+    
+    @EnvironmentObject var favorites : FavoritesViewModel
+    @Binding var searchText : String
+    
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        ScrollView {
+            LazyVStack {
+                ForEach(favorites.filteredCities(searchText: searchText)) { city in
+                    CityCardView(city: city)
+                }
+            }
+            .padding()
+        }
     }
 }
 
 #Preview {
-    CitiesView()
+    CitiesView(searchText: .constant(""))
+        .environmentObject(FavoritesViewModel())
 }

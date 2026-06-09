@@ -8,11 +8,19 @@
 import SwiftUI
 
 struct HobbiesView: View {
+    
+    @EnvironmentObject var favorites : FavoritesViewModel
+    @Binding var searchText : String
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        ScrollView{
+            LazyVStack {
+                ForEach(favorites.filteredHobbies(searchText: searchText)) { hobby in
+                    HobbyRowView(hobby: hobby)
+                }
+            }
+            .padding()
+        }
     }
 }
 
-#Preview {
-    HobbiesView()
-}

@@ -43,9 +43,15 @@ struct HomeView: View {
     
     @ViewBuilder
     private func selectedContentView() -> some View {
-        Text("Cities")
-        Text("Hobbies")
-        Text("Books")
+        if selectedCategory == .cities {
+            CitiesView(searchText: $searchText)
+        } else if selectedCategory == .hobbies {
+            HobbiesView(searchText: $searchText)
+        } else if selectedCategory == .books {
+            BooksView(searchText: $searchText)
+        } else {
+            
+        }
     }
     
     
@@ -53,4 +59,5 @@ struct HomeView: View {
 
 #Preview {
     HomeView()
+        .environmentObject(FavoritesViewModel())
 }
